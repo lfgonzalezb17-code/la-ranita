@@ -254,7 +254,21 @@
         #cart-btn:hover { background:#f0fff0; }
         body { padding-bottom: 80px; }
 
-    </style>
+    
+.contraentrega-badge {
+    background: #e67e22 !important;
+    color: #fff !important;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+.cat-block summary .contraentrega-badge {
+    float: right;
+}
+
+</style>
 </head>
 <body>
 
@@ -1038,6 +1052,60 @@
             </div></div>
         </details>
 
+
+        <details class="cat-block">
+            <summary><span>🍾 Licores</span><span class="cat-badge contraentrega-badge">💵 Pago contraentrega</span></summary>
+            <div class="prod-grid">
+                <div class="prod-card" data-name="🥃 Ron Medellín 5 Años 750ml" data-price="57000">
+                    <span class="pname">🥃 Ron Medellín 5 Años 750ml</span>
+                    <span class="pprice">$57,000</span>
+                </div>
+                <div class="prod-card" data-name="🥃 Ron Dictador 20 Años 750ml" data-price="190000">
+                    <span class="pname">🥃 Ron Dictador 20 Años 750ml</span>
+                    <span class="pprice">$190,000</span>
+                </div>
+                <div class="prod-card" data-name="🥃 Whisky Buchanan's 12 Años 750ml" data-price="165000">
+                    <span class="pname">🥃 Whisky Buchanan's 12 Años 750ml</span>
+                    <span class="pprice">$165,000</span>
+                </div>
+                <div class="prod-card" data-name="🥃 Whisky Old Parr 750ml" data-price="230000">
+                    <span class="pname">🥃 Whisky Old Parr 750ml</span>
+                    <span class="pprice">$230,000</span>
+                </div>
+                <div class="prod-card" data-name="🍹 Aguardiente Néctar Rojo 750ml" data-price="43000">
+                    <span class="pname">🍹 Aguardiente Néctar Rojo 750ml</span>
+                    <span class="pprice">$43,000</span>
+                </div>
+                <div class="prod-card" data-name="🍹 Aguardiente Néctar Premium 750ml" data-price="75000">
+                    <span class="pname">🍹 Aguardiente Néctar Premium 750ml</span>
+                    <span class="pprice">$75,000</span>
+                </div>
+                <div class="prod-card" data-name="🍷 Vino Gato Negro Merlot 750ml" data-price="55000">
+                    <span class="pname">🍷 Vino Gato Negro Merlot 750ml</span>
+                    <span class="pprice">$55,000</span>
+                </div>
+                <div class="prod-card" data-name="🍷 Vino Casillero del Diablo Cabernet 750ml" data-price="70000">
+                    <span class="pname">🍷 Vino Casillero del Diablo Cabernet 750ml</span>
+                    <span class="pprice">$70,000</span>
+                </div>
+                <div class="prod-card" data-name="🥂 Brandy Don Pedro 750ml" data-price="85000">
+                    <span class="pname">🥂 Brandy Don Pedro 750ml</span>
+                    <span class="pprice">$85,000</span>
+                </div>
+                <div class="prod-card" data-name="🥂 Brandy Torres 10 750ml" data-price="270000">
+                    <span class="pname">🥂 Brandy Torres 10 750ml</span>
+                    <span class="pprice">$270,000</span>
+                </div>
+                <div class="prod-card" data-name="🍶 Crema de Whisky Carolans 750ml" data-price="65000">
+                    <span class="pname">🍶 Crema de Whisky Carolans 750ml</span>
+                    <span class="pprice">$65,000</span>
+                </div>
+                <div class="prod-card" data-name="🍶 Crema de Whisky Baileys 750ml" data-price="90000">
+                    <span class="pname">🍶 Crema de Whisky Baileys 750ml</span>
+                    <span class="pprice">$90,000</span>
+                </div>
+            </div>
+        </details>
     </div>
 </section>
 
@@ -1304,11 +1372,21 @@
         const total = Array.from(cart.values()).reduce(function(a,b){ return a+b; }, 0);
         countEl.textContent = n + (n === 1 ? ' producto' : ' productos');
         totalEl.textContent = '$' + total.toLocaleString('es-CO');
+        var hasLicores = false;
+        cart.forEach(function(price, name) {
+            if (name.includes('Ron') || name.includes('Whisky') || name.includes('Aguardiente') || name.includes('Vino') || name.includes('Brandy') || name.includes('Crema de Whisky')) {
+                hasLicores = true;
+            }
+        });
         var msg = 'Hola La Ranita! Quiero pedir:\n\n';
         cart.forEach(function(price, name) {
             msg += '- ' + name + ' ($' + price.toLocaleString('es-CO') + ')\n';
         });
-        msg += '\nTotal aprox: $' + total.toLocaleString('es-CO') + '\n\nPor favor confirmar disponibilidad y pago. Gracias!';
+        msg += '\nTotal aprox: $' + total.toLocaleString('es-CO');
+        if (hasLicores) {
+            msg += '\n\n💵 Nota: Los licores los pago contraentrega al momento de la entrega.';
+        }
+        msg += '\n\nPor favor confirmar disponibilidad. Gracias!';
         btnEl.href = 'https://wa.me/573006980406?text=' + encodeURIComponent(msg);
     }
 </script>
