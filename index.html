@@ -903,15 +903,21 @@
 </div>
 
 <script>
-
     const cart = new Map();
+
     function toggleProduct(el) {
         const name = el.dataset.name;
         const price = parseInt(el.dataset.price);
-        if (cart.has(name)) { cart.delete(name); el.classList.remove('selected'); }
-        else { cart.set(name, price); el.classList.add('selected'); }
+        if (cart.has(name)) {
+            cart.delete(name);
+            el.classList.remove('selected');
+        } else {
+            cart.set(name, price);
+            el.classList.add('selected');
+        }
         updateBar();
     }
+
     function updateBar() {
         const bar = document.getElementById('cart-bar');
         const countEl = document.getElementById('cart-count');
@@ -920,15 +926,16 @@
         const n = cart.size;
         if (n === 0) { bar.style.display = 'none'; return; }
         bar.style.display = 'flex';
-        const total = [...cart.values()].reduce((a,b)=>a+b,0);
-        countEl.textContent = n + (n===1?' producto':' productos');
+        const total = Array.from(cart.values()).reduce(function(a,b){ return a+b; }, 0);
+        countEl.textContent = n + (n === 1 ? ' producto' : ' productos');
         totalEl.textContent = '$' + total.toLocaleString('es-CO');
-        let msg = '\u{1F6D2} Hola La Ranita! Quiero pedir:\n\n';
-        cart.forEach((price, name) => { msg += '\u2705 ' + name + ' \u2014 $' + price.toLocaleString('es-CO') + '\n'; });
-        msg += '\nTotal aprox: $' + total.toLocaleString('es-CO') + '\n\nPor favor confirmar disponibilidad y coordinar pago \u{1F438}';
+        var msg = 'Hola La Ranita! Quiero pedir:\n\n';
+        cart.forEach(function(price, name) {
+            msg += '- ' + name + ' ($' + price.toLocaleString('es-CO') + ')\n';
+        });
+        msg += '\nTotal aprox: $' + total.toLocaleString('es-CO') + '\n\nPor favor confirmar disponibilidad y pago. Gracias!';
         btnEl.href = 'https://wa.me/573006980406?text=' + encodeURIComponent(msg);
     }
-
 </script>
 
 </body>
